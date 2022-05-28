@@ -49,10 +49,10 @@ namespace ConsoleApp1
                         RemovePlayer();
                         break;
                     case "6":
-                        _isWorking = false;
+                        Exit();
                         break;
                     default :
-                        _showWarningMessage(wrongInputCode);
+                        ShowWarningMessage(wrongInputCode);
                         break;
                 }
             }
@@ -67,13 +67,13 @@ namespace ConsoleApp1
             string input = Console.ReadLine();
             int playerLevel;
 
-            if (_chekInput(input, out playerLevel))
+            if (ChekInput(input, out playerLevel))
             {
                 _players.Add(new Player(nickname, playerLevel));
             }
             else 
             {
-                _showWarningMessage(wrongInputCode);
+                ShowWarningMessage(wrongInputCode);
             }
 
             Console.Clear();
@@ -85,21 +85,21 @@ namespace ConsoleApp1
             {
                 Console.WriteLine("Введите id пользователя вы хотите забанить?");
                 string input = Console.ReadLine();
-                int number;
+                int number = 0;
 
-                if (_chekInput(input, out number) && number <= _players.Count && (_players[number - 1].IsBanned == false))
+                if (TryGetPLayer(input, number))
                 {
                     _players[number - 1].Ban();
                     Console.Clear();
                 }
                 else
                 {
-                    _showWarningMessage(wrongInputCode);
+                    ShowWarningMessage(wrongInputCode);
                 }
             }
             else
             {
-                _showWarningMessage(emptyDataBaseCode);
+                ShowWarningMessage(emptyDataBaseCode);
             }
         }
 
@@ -109,21 +109,21 @@ namespace ConsoleApp1
             {
                 Console.WriteLine("Введите id пользователя вы хотите разбанить?");
                 string input = Console.ReadLine();
-                int number;
+                int number = 0;
 
-                if (_chekInput(input, out number) && number <= _players.Count && (_players[number - 1].IsBanned == true))
+                if (TryGetPLayer(input, number))
                 {
                     _players[number - 1].UnBan();
                     Console.Clear();
                 }
                 else
                 {
-                    _showWarningMessage(wrongInputCode);
+                    ShowWarningMessage(wrongInputCode);
                 }
             }
             else
             {
-                _showWarningMessage(emptyDataBaseCode);
+                ShowWarningMessage(emptyDataBaseCode);
             }
         }
 
@@ -135,19 +135,19 @@ namespace ConsoleApp1
                 string input = Console.ReadLine();
                 int number;
 
-                if (_chekInput(input, out number) && number <= _players.Count)
+                if (ChekInput(input, out number) && number <= _players.Count)
                 {
                     _players.RemoveAt(number - 1);
                     Console.Clear();
                 }
                 else
                 {
-                    _showWarningMessage(wrongInputCode);
+                    ShowWarningMessage(wrongInputCode);
                 }
             }
             else
             {
-                _showWarningMessage(emptyDataBaseCode);
+                ShowWarningMessage(emptyDataBaseCode);
             }
         }
 
@@ -169,11 +169,11 @@ namespace ConsoleApp1
             }
             else
             {
-                _showWarningMessage(emptyDataBaseCode);
+                ShowWarningMessage(emptyDataBaseCode);
             }
         }
 
-        private string _showWarningMessage(int warningCode)
+        private string ShowWarningMessage(int warningCode)
         {
             string message = " ";
             switch (warningCode)
@@ -192,11 +192,29 @@ namespace ConsoleApp1
             return message;
         }
 
-        private bool _chekInput(string input, out int number)
+        private bool ChekInput(string input, out int number)
         {
             bool isCorrect = false;
             isCorrect = int.TryParse(input, out number);
             return isCorrect;
+        }
+
+        public bool Exit()
+        {
+            _isWorking = false;
+            return _isWorking;
+        }
+
+        public bool TryGetPLayer(string input, int number)
+        {
+            if (ChekInput(input, out number) && number <= _players.Count && (_players[number - 1].IsBanned == true))
+            {
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
         }
     }
 
@@ -213,7 +231,7 @@ namespace ConsoleApp1
             _nickname = nickname;
         }
 
-        public string Banstatus()
+        public string ShowBanStatus()
         {
             string banstatus = " ";
 
@@ -241,7 +259,7 @@ namespace ConsoleApp1
 
         public void ShowData()
         {
-            Console.WriteLine($"Ник {_nickname}, уровень {_playerLevel}, статус бана {Banstatus()}");
+            Console.WriteLine($"Ник {_nickname}, уровень {_playerLevel}, статус бана {ShowBanStatus()}");
         }
     }
 }
