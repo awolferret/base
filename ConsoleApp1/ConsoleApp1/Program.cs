@@ -83,7 +83,7 @@ namespace ConsoleApp1
         {
             if (_players.Count > 0)
             {
-                Console.WriteLine("Какого пользователя вы хотите забанить?");
+                Console.WriteLine("Введите id пользователя вы хотите забанить?");
                 string input = Console.ReadLine();
                 int number;
 
@@ -107,7 +107,7 @@ namespace ConsoleApp1
         {
             if (_players.Count > 0)
             {
-                Console.WriteLine("Какого пользователя вы хотите разбанить?");
+                Console.WriteLine("Введите id пользователя вы хотите разбанить?");
                 string input = Console.ReadLine();
                 int number;
 
@@ -131,7 +131,7 @@ namespace ConsoleApp1
         {
             if (_players.Count > 0)
             {
-                Console.WriteLine("Какого пользователя вы хотите удалить?");
+                Console.WriteLine("Введите id пользователя вы хотите удалить?");
                 string input = Console.ReadLine();
                 int number;
 
